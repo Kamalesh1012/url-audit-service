@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: url-audit-service
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app.main:app -k uvicorn.workers.UvicornWorker -w 2 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: AUDIT_ENVIRONMENT
+        value: production
+      - key: AUDIT_REDIS_URL
+        fromService:
+          name: url-audit-redis
+          type: redis
+          property: connectionString
+      - key: AUDIT_CACHE_TTL_SECONDS
+        value: "300"
+      - key: AUDIT_RATE_LIMIT
+        value: "30/minute"
+
+  - type: redis
+    name: url-audit-redis
+    plan: free
+    ipAllowList: []
