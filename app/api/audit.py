@@ -7,7 +7,7 @@ from app.models.response import AuditResult
 from app.services import analyzer
 from app.services.analyzer import AnalysisError
 from app.services.cache import AuditCache, RedisCache
-from app.services.fetcher import FetchError, fetch
+from app.services.fetcher import fetch
 from app.utils.logger import log
 
 router = APIRouter()
